@@ -2,11 +2,26 @@ const { faker } = require('@faker-js/faker');
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-// Function to generate a list of synthetic phone numbers
+// // Function to generate a list of synthetic phone numbers
+// function generatePhoneNumbers(count) {
+//     const phoneNumbers = [];
+//     for (let i = 0; i < count; i++) {
+//         const phoneNumber = faker.phone.number();
+//         phoneNumbers.push({ id: i + 1, phoneNumber });
+//     }
+//     return phoneNumbers;
+// }
+
+// Function to generate a list of synthetic phone numbers with a maximum of 11 digits
 function generatePhoneNumbers(count) {
     const phoneNumbers = [];
     for (let i = 0; i < count; i++) {
-        const phoneNumber = faker.phone.number();
+        let phoneNumber;
+        do {
+            phoneNumber = faker.phone.number();
+            phoneNumber = phoneNumber.replace(/\D/g, ''); // Remove all non-digit characters
+        } while (phoneNumber.length > 11); // Ensure the phone number has a maximum of 11 digits
+
         phoneNumbers.push({ id: i + 1, phoneNumber });
     }
     return phoneNumbers;
